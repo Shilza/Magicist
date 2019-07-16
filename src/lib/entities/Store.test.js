@@ -1,6 +1,4 @@
 import {Store} from "./Store";
-import {useStore} from "../index";
-import {renderHook} from "@testing-library/react-hooks";
 
 describe('Store', () => {
     const func = jest.fn();
@@ -17,8 +15,46 @@ describe('Store', () => {
     });
 
     it('should call middleware', () => {
-        const {result} = renderHook(() => useStore(store));
-        result.current.increment();
+        store.getModel().increment();
         expect(func).toBeCalledTimes(1);
+    });
+
+    describe('watch', () => {
+        const store = new Store(observedState);
+
+       it('should triggers watcher', () => {
+           const watcher = jest.fn();
+           store.watch(watcher);
+           store.getModel().increment();
+           expect(watcher).toBeCalledTimes(1);
+       });
+
+        it('unwatch should works correctly', () => {
+            const watcher = jest.fn();
+            const unwatch = store.watch(watcher);
+            unwatch();
+            store.getModel().increment();
+            expect(watcher).toBeCalledTimes(0);
+        });
+    });
+
+    describe('watchProp', () => {
+        const store = new Store(observedState);
+
+        it('should triggers watcher', () => {
+            const watcher = jest.fn();
+            store.watchProp('count', watcher);
+            store.getModel().increment();
+            expect(watcher).toBeCalledTimes(1);
+            expect(watcher).toBeCalledWith(0, 1);
+        });
+
+        it('unwatch should works correctly', () => {
+            const watcher = jest.fn();
+            const unwatch = store.watchProp('count', watcher);
+            unwatch();
+            store.getModel().increment();
+            expect(watcher).toBeCalledTimes(0);
+        });
     });
 });

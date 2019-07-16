@@ -1,4 +1,4 @@
-import {PubSub} from "../utils/PubSub";
+import {PubSub} from "../utils";
 import '../polyfills/watch';
 
 export class Store {
@@ -12,7 +12,7 @@ export class Store {
      * @param middlewares {Array}
      */
     constructor(model, middlewares: Array<middleware> = []) {
-        this.model = model;
+        this.model = {...model};
         this.registerMiddlewares(middlewares);
         this.registerWatchers();
     }
@@ -27,21 +27,25 @@ export class Store {
     /**
      * @description Method that apply callback when model is changed
      * @param watcher {Function}
+     * @returns {Function} than unsubscribe watcher
      */
-    watch(watcher: Function) {
-        PubSub.subscribe(this, () => watcher(this.model));
+    watch(watcher: Function): Function {
+        const token = PubSub.subscribe(this, () => watcher(this.model));
+        return () => PubSub.unsubscribe(token);
     }
 
     /**
      * @description Method that apply callback when prop value is changed
      * @param propName {string}
      * @param watcher {Function}
+     * @returns {Function} than unsubscribe watcher
      */
-    watchProp(propName: string, watcher: (oldValue: any, newValue: any) => void) {
-        PubSub.subscribe(Store.WATCHERS, ([prop, oldValue, newValue]) => {
-            if(propName === prop)
+    watchProp(propName: string, watcher: (oldValue: any, newValue: any) => void): Function {
+        const token = PubSub.subscribe(Store.WATCHERS, ([prop, oldValue, newValue]) => {
+            if (propName === prop)
                 watcher(oldValue, newValue);
         });
+        return () => PubSub.unsubscribe(token);
     }
 
     /**
@@ -57,7 +61,7 @@ export class Store {
         };
 
         Object.keys(this.model).forEach(key => {
-            if(typeof key !== 'function')
+            if (typeof key !== 'function')
                 this.model.watch(key, watchHandler);
         });
     }
