@@ -1,6 +1,7 @@
 <img align="right" alt='Magicist logo' width="166" height="108" src="https://github.com/Shilza/Magicist/blob/master/public/readmeLogo.png" />
 
 # Magicist
+[![CircleCI](https://circleci.com/gh/Shilza/Magicist.svg?style=svg)](https://circleci.com/gh/Shilza/Magicist)
 [![install size](https://packagephobia.now.sh/badge?p=magicist)](https://packagephobia.now.sh/result?p=magicist)
 [![PRs Welcome](https://img.shields.io/badge/PRs-welcome-brightgreen.svg?style=flat-square)](http://makeapullrequest.com)
 ![License](https://img.shields.io/npm/l/magicist.svg?colorB=brightgreen&style=popout)
