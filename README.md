@@ -74,7 +74,7 @@ const Counter = () => {
 [![Edit magicist-counter-example](https://codesandbox.io/static/img/play-codesandbox.svg)](https://codesandbox.io/s/magicist-counter-example-ktynt?fontsize=14)
 
 ## API
-#### createStore
+### createStore
 `createStore(store, middlewares)` Create a store object that holds the state tree.
 
 ###### Arguments
@@ -84,23 +84,23 @@ const Counter = () => {
 ###### Returns 
 `Store` object that holds the state tree.
 
-##### Example
+#### Example
 ```javascript
 const store = createStore({
     someData: 100
 });
 ```
-##### middlewares
+#### middlewares
 
 These are functions that intercept actions.
 Middlewares are will be called before running the store functions.
 
 Middleware function arguments: 
 1. `model`: Model
-2. `func`: called function
+2. `func`: Function
 3. `args`: arguments to be passed in called function  
 
-##### Example
+#### Example
 ```javascript
 function logger(model, func, args) {
     console.log(model); // {someData: 100, manipulateData: (...)}
@@ -120,7 +120,7 @@ const store = createStore({
 store.getModel().manipulateData();
 ```
 
-#### useStore
+### useStore
 `useStore(store)` Creates hook function, which subscribe to watcher, that observes changes in current store, so when recording results, the component will update automatically.
 
 ###### Arguments
@@ -129,18 +129,18 @@ store.getModel().manipulateData();
 ###### Returns 
 `Model`
 
-##### Example
+#### Example
 ```javascript
 let model = useStore(store);
 ```
 
-#### watch
+### watch
 `watch(watcher)` Triggers the callback when store is updated
 
 ###### Arguments
 1. `watcher`: Function
 
-##### Example
+#### Example
 
 ```javascript
 const globalStore = createStore({
@@ -156,11 +156,13 @@ globalStore.watch(watcher); // { count: 1, increment: (...) }
 globalStore.getModel().increment();
 ```
 
-#### watchProp
+### watchProp
 `watchProp(propName, watcher)` Triggers the callback when store's prop is updated
 
 ###### Arguments
 1. `watcher`: (oldValue, newValue) => void
+
+#### Example
 
 ```javascript
 const globalStore = createStore({
