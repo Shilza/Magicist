@@ -37,7 +37,7 @@ class TokenGenerator {
 }
 
 export class PubSub {
-    static subs: Array<Subscriber> = [];
+    private static subs: Array<Subscriber> = [];
 
     /**
      * @description Method that creates subscriber and bind it to updates
