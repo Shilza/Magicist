@@ -1,68 +1,152 @@
-This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
+<img align="right" alt='Magicist logo' width="166" height="108" src="https://github.com/Shilza/Magicist/blob/master/public/readmeLogo.png" />
 
-## Available Scripts
+# Magicist
+[![install size](https://packagephobia.now.sh/badge?p=magicist)](https://packagephobia.now.sh/result?p=magicist)
+[![PRs Welcome](https://img.shields.io/badge/PRs-welcome-brightgreen.svg?style=flat-square)](http://makeapullrequest.com)
+![License](https://img.shields.io/npm/l/magicist.svg?colorB=brightgreen&style=popout)
 
-In the project directory, you can run:
 
-### `npm start`
+Extra simple state manager.
+##### No need to think about details. Just write code
 
-Runs the app in the development mode.<br>
-Open [http://localhost:3000](http://localhost:3000) to view it in the browser.
+## Advantages
 
-The page will reload if you make edits.<br>
-You will also see any lint errors in the console.
 
-### `npm test`
+* Zero-dependency
+* Tiny bundle size
+* Boilerplate free
+* React bindings out of the box
+* Only point changes (you no longer need to reduce the state)
+* With Magicist you don't need to normalize your data. This makes the library very suitable for very complex domain models
+* No need classes
+* No need immutable data structures
+* No need middlewares for async actions
 
-Launches the test runner in the interactive watch mode.<br>
-See the section about [running tests](https://facebook.github.io/create-react-app/docs/running-tests) for more information.
+## Installation
 
-### `npm run build`
+Via yarn
+```
+yarn add magicist
+```
 
-Builds the app for production to the `build` folder.<br>
-It correctly bundles React in production mode and optimizes the build for the best performance.
+Via npm 
+```
+npm install magicist --save
+```
 
-The build is minified and the filenames include the hashes.<br>
-Your app is ready to be deployed!
+## Examples
+### Increment/decrement
+```javascript
+import React from 'react';
+import {createStore} from "magicist";
+import {useStore} from "magicist";
 
-See the section about [deployment](https://facebook.github.io/create-react-app/docs/deployment) for more information.
+export const counterStore = createStore({
+    count: 0,
+    increment: function () {
+        this.count++;
+    },
+    decrement: function () {
+        this.count--;
+    },
+    reset: function() {
+        this.count = 0;
+    }
+});
 
-### `npm run eject`
+const Counter = () => {
+    let {count, increment, decrement, reset} = useStore(counterStore);
 
-**Note: this is a one-way operation. Once you `eject`, you can’t go back!**
+    return (
+        <>
+            <div>Counter {count}</div>
+            <button onClick={increment}>+</button>
+            <button onClick={decrement}>-</button>
+            <button onClick={reset}>Reset</button>
+        </>
+    );
+};
+```
 
-If you aren’t satisfied with the build tool and configuration choices, you can `eject` at any time. This command will remove the single build dependency from your project.
+## Demo
+##### Basic 
+[![Edit magicist-counter-example](https://codesandbox.io/static/img/play-codesandbox.svg)](https://codesandbox.io/s/magicist-counter-example-ktynt?fontsize=14)
 
-Instead, it will copy all the configuration files and the transitive dependencies (Webpack, Babel, ESLint, etc) right into your project so you have full control over them. All of the commands except `eject` will still work, but they will point to the copied scripts so you can tweak them. At this point you’re on your own.
+## API
+#### createStore
+`createStore(store, middlewares)` Create a store object that holds the state tree.
 
-You don’t have to ever use `eject`. The curated feature set is suitable for small and middle deployments, and you shouldn’t feel obligated to use this feature. However we understand that this tool wouldn’t be useful if you couldn’t customize it when you are ready for it.
+###### Arguments
+1. `store`: object
+2. `middlewares`: Array<(store: Store, func: (any) => any, args: Array<any>) => void>
 
-## Learn More
+###### Returns 
+`Store` object that holds the state tree.
 
-You can learn more in the [Create React App documentation](https://facebook.github.io/create-react-app/docs/getting-started).
+##### Example
+```javascript
+const store = createStore({
+    someData: 100
+});
+```
+##### middlewares
 
-To learn React, check out the [React documentation](https://reactjs.org/).
+These are functions that intercept actions.
+Middlewares are will be called before running the store functions.
 
-### Code Splitting
+Middleware function arguments: 
+1. `store`: Store
+2. `func`: called function
+3. `args`: arguments to be passed in called function  
 
-This section has moved here: https://facebook.github.io/create-react-app/docs/code-splitting
+##### Example
+```javascript
+function logger(store, func, args) {
+    console.log(store); // {someData: 100, manipulateData: (...)}
+    console.log(func); // ƒ (receivedData) { return this.someData / receivedData; }
+    console.log(args); // [100]
+}
 
-### Analyzing the Bundle Size
+const middlewares = [logger];
 
-This section has moved here: https://facebook.github.io/create-react-app/docs/analyzing-the-bundle-size
+const store = createStore({
+    someData: 100,
+    manipulateData: function(receivedData) {
+        return this.someData / receivedData;
+    }
+}, middlewares);
 
-### Making a Progressive Web App
 
-This section has moved here: https://facebook.github.io/create-react-app/docs/making-a-progressive-web-app
+//... In React component
+const SomeComponent = () => {
+    let {manipulateData} = useStore(store);
+    manipulateData(100);
 
-### Advanced Configuration
+    return (
+        <></>
+    );
+};
 
-This section has moved here: https://facebook.github.io/create-react-app/docs/advanced-configuration
+```
 
-### Deployment
+#### useStore
+`useStore(store)` Creates hook function, which subscribe to watcher, that observes changes in current store, so when recording results, the component will update automatically.
 
-This section has moved here: https://facebook.github.io/create-react-app/docs/deployment
+###### Arguments
+1. `store`: Store (created by `createStore`)
 
-### `npm run build` fails to minify
+###### Returns 
+`State`
 
-This section has moved here: https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify
+##### Example
+```javascript
+let state = useStore(store);
+```
+
+## What will Magicist react to?
+Magicist reacts to any existing observable property that is read during the execution of a tracked function.
+
+## Contributing
+
+* Feel free to send pull requests.
+* Use `yarn test` to run the basic test suite.
