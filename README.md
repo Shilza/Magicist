@@ -96,14 +96,14 @@ These are functions that intercept actions.
 Middlewares are will be called before running the store functions.
 
 Middleware function arguments: 
-1. `store`: Store
+1. `model`: Model
 2. `func`: called function
 3. `args`: arguments to be passed in called function  
 
 ##### Example
 ```javascript
-function logger(store, func, args) {
-    console.log(store); // {someData: 100, manipulateData: (...)}
+function logger(model, func, args) {
+    console.log(model); // {someData: 100, manipulateData: (...)}
     console.log(func); // ƒ (receivedData) { return this.someData / receivedData; }
     console.log(args); // [100]
 }
@@ -117,17 +117,7 @@ const store = createStore({
     }
 }, middlewares);
 
-
-//... In React component
-const SomeComponent = () => {
-    let {manipulateData} = useStore(store);
-    manipulateData(100);
-
-    return (
-        <></>
-    );
-};
-
+store.getModel().manipulateData();
 ```
 
 #### useStore
@@ -137,13 +127,54 @@ const SomeComponent = () => {
 1. `store`: Store (created by `createStore`)
 
 ###### Returns 
-`State`
+`Model`
 
 ##### Example
 ```javascript
-let state = useStore(store);
+let model = useStore(store);
 ```
 
+#### watch
+`watch(watcher)` Triggers the callback when store is updated
+
+###### Arguments
+1. `watcher`: Function
+
+##### Example
+
+```javascript
+const globalStore = createStore({
+    count: 0,
+    increment: function () {
+        this.count++;
+    }
+});
+
+const watcher = model => console.log(model);
+globalStore.watch(watcher); // { count: 1, increment: (...) }
+
+globalStore.getModel().increment();
+```
+
+#### watchProp
+`watchProp(propName, watcher)` Triggers the callback when store's prop is updated
+
+###### Arguments
+1. `watcher`: (oldValue, newValue) => void
+
+```javascript
+const globalStore = createStore({
+    count: 0,
+    increment: function () {
+        this.count++;
+    }
+});
+
+const watcher = (oldValue, newValue) => console.log(oldValue, newValue);
+globalStore.watchProp('count', watcher); // 0, 1
+
+globalStore.getModel().increment();
+```
 ## What will Magicist react to?
 Magicist reacts to any existing observable property that is read during the execution of a tracked function.
 
