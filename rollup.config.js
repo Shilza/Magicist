@@ -11,15 +11,16 @@ export default {
     plugins: [
         resolve({
             browser: true,
-            extensions: ['.js', '.jsx', '.css'],
+            extensions: ['.js', '.jsx', '.ts', '.tsx', '.css'],
             modulesOnly: true
         }),
         babel({
+            presets: ["@babel/typescript"],
             plugins: [
                 "@babel/plugin-proposal-class-properties",
-                "@babel/plugin-proposal-private-methods"
             ],
             exclude: ['node_modules/**'],
+            extensions: ['.js', '.jsx', '.ts', '.tsx'],
             runtimeHelpers: true
         }),
         minify({
