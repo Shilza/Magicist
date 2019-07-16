@@ -4,7 +4,7 @@ import {globalStore} from "./store";
 import {useStore} from "../lib";
 
 export const Counter = () => {
-    let {count, increment, decrement, reset} = useStore(globalStore);
+    const {count, increment, decrement, reset} = useStore(globalStore);
 
     return (
         <div className="App">
