@@ -7,7 +7,7 @@ import {Store} from "../entities";
  * @param middlewares {Array}
  * @returns {Store}
  */
-export const createStore = (model: Object, middlewares: Array<middleware> = []): Store => {
+export const createStore = (model: Object, middlewares: Array<Middleware> = []): Store => {
     if (typeof model !== 'object')
         throw TypeError('store must be an object');
 
