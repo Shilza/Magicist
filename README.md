@@ -36,7 +36,7 @@ Extra simple state manager.
 ## Advantages
 
 * Zero-dependency
-* Tiny bundle size
+* Tiny bundle size ([1 KB](https://bundlephobia.com/result?p=magicist@0.2.3) gzipped)
 * Boilerplate free
 * React bindings out of the box
 * Only point changes (you no longer need to reduce the state)
