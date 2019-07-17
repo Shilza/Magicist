@@ -1,13 +1,13 @@
 {
   "name": "magicist",
-  "version": "0.1.8",
+  "version": "0.2.4",
   "description": "Simple and scalable state manager",
   "source": "src/lib/index.ts",
-  "main": "dist/index.js",
-  "module": "dist/index.mjs",
-  "unpkg": "dist/magicist.min.js",
+  "main": "dist/magicist.js",
+  "module": "dist/es/magicist.js",
+  "unpkg": "dist/unpkg/magicist.umd.js",
   "files": [
-    "dist/index.js",
+    "dist",
     "README.md"
   ],
   "scripts": {
@@ -38,17 +38,18 @@
     "@babel/preset-typescript": "^7.3.3",
     "@testing-library/react-hooks": "^1.1.0",
     "doctoc": "^1.4.0",
-    "react": "^16.8.6",
-    "react-dom": "^16.8.6",
-    "react-scripts": "3.0.1",
     "react-test-renderer": "^16.8.6",
     "rollup": "^1.17.0",
     "rollup-plugin-babel": "^4.3.3",
     "rollup-plugin-babel-minify": "^9.0.0",
-    "rollup-plugin-gzip": "^2.2.0",
     "rollup-plugin-node-resolve": "^5.2.0",
     "rollup-plugin-terser": "^5.1.1",
     "typescript": "^3.5.3"
+  },
+  "peerDependencies": {
+    "react": "^16.8.6",
+    "react-dom": "^16.8.6",
+    "react-scripts": "3.0.1"
   },
   "dependencies": {},
   "author": {

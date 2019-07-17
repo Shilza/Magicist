@@ -2,7 +2,6 @@ import babel from 'rollup-plugin-babel';
 import minify from 'rollup-plugin-babel-minify';
 import pkg from './package.json';
 import resolve from 'rollup-plugin-node-resolve';
-import gzipPlugin from 'rollup-plugin-gzip';
 import {terser} from "rollup-plugin-terser";
 
 const input = 'src/lib/index.ts';
@@ -28,21 +27,27 @@ const minPlugins = [
     ...basicPlugins,
     minify(),
     terser(),
-    gzipPlugin()
 ];
 
 export default [
     {
         input: input,
         output: [
-            {file: pkg.main, format: 'es'}
+            {file: pkg.main, format: 'cjs'}
+        ],
+        plugins: minPlugins
+    },
+    {
+        input: input,
+        output: [
+            {file: pkg.module, format: 'es'}
         ],
         plugins: basicPlugins
     },
     {
         input: input,
         output: [
-            {file: pkg.module, format: 'es'}
+            {file: 'dist/es/magicist.mjs', format: 'es'}
         ],
         plugins: minPlugins
     },
