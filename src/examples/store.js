@@ -12,3 +12,6 @@ export const globalStore = createStore({
         this.count = 0;
     }
 });
+
+globalStore.watch(console.log);
+globalStore.getModel().increment();
