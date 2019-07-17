@@ -8,10 +8,32 @@
 
 
 Extra simple state manager.
-##### No need to think about details. Just write code
+
+**No need to think about details. Just write code**
+
+<!-- START doctoc generated TOC please keep comment here to allow auto update -->
+<!-- DON'T EDIT THIS SECTION, INSTEAD RE-RUN doctoc TO UPDATE -->
+**Table of Contents**
+
+- [Advantages](#advantages)
+- [Installation](#installation)
+- [Examples](#examples)
+  - [Increment/decrement](#incrementdecrement)
+- [Demo](#demo)
+      - [Basic](#basic)
+- [API](#api)
+  - [createStore](#createstore)
+    - [middlewares](#middlewares)
+    - [watch](#watch)
+    - [watchProp](#watchprop)
+  - [useStore](#usestore)
+- [What will Magicist react to?](#what-will-magicist-react-to)
+- [Contributing](#contributing)
+
+<!-- END doctoc generated TOC please keep comment here to allow auto update -->
+
 
 ## Advantages
-
 
 * Zero-dependency
 * Tiny bundle size
@@ -77,14 +99,14 @@ const Counter = () => {
 ### createStore
 `createStore(store, middlewares)` Create a store object that holds the state tree.
 
-###### Arguments
+*Arguments*
 1. `store`: object
 2. `middlewares`: Array<(store: Store, func: (any) => any, args: Array<any>) => void>
 
-###### Returns 
+*Returns* 
 `Store` object that holds the state tree.
 
-#### Example
+***Example***
 ```javascript
 const store = createStore({
     someData: 100
@@ -100,7 +122,7 @@ Middleware function arguments:
 2. `func`: Function
 3. `args`: arguments to be passed in called function  
 
-#### Example
+***Example***
 ```javascript
 function logger(model, func, args) {
     console.log(model); // {someData: 100, manipulateData: (...)}
@@ -120,30 +142,17 @@ const store = createStore({
 store.getModel().manipulateData();
 ```
 
-### useStore
-`useStore(store)` Creates hook function, which subscribe to watcher, that observes changes in current store, so when recording results, the component will update automatically.
 
-###### Arguments
-1. `store`: Store (created by `createStore`)
-
-###### Returns 
-`Model`
-
-#### Example
-```javascript
-let model = useStore(store);
-```
-
-### watch
+#### watch
 `watch(watcher)` Triggers the callback when store is updated
 
-###### Arguments
+*Arguments*
 1. `watcher`: Function
 
-###### Returns 
+*Returns* 
 `disposer` function, which can be used to dispose of the watcher when you no longer need it.
 
-#### Example
+***Example***
 
 ```javascript
 const globalStore = createStore({
@@ -160,16 +169,16 @@ globalStore.getModel().increment();
 disposer(); // unsubscribe from updates
 ```
 
-### watchProp
+#### watchProp
 `watchProp(propName, watcher)` Triggers the callback when store's prop is updated
 
-###### Arguments
+*Arguments*
 1. `watcher`: (oldValue, newValue) => void
 
-###### Returns 
+*Returns* 
 `disposer` function, which can be used to dispose of the watcher when you no longer need it.
 
-#### Example
+***Example***
 
 ```javascript
 const globalStore = createStore({
@@ -184,6 +193,20 @@ const disposer = globalStore.watchProp('count', watcher); // 0, 1
 
 globalStore.getModel().increment();
 disposer(); // unsubscribe from updates
+```
+
+### useStore
+`useStore(store)` Creates hook function, which subscribe to watcher, that observes changes in current store, so when recording results, the component will update automatically.
+
+*Arguments*
+1. `store`: Store (created by `createStore`)
+
+*Returns* 
+`Model`
+
+***Example***
+```javascript
+let model = useStore(store);
 ```
 ## What will Magicist react to?
 Magicist reacts to any existing observable property that is read during the execution of a tracked function.
