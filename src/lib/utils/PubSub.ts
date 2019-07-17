@@ -1,5 +1,3 @@
-import {uuidv4} from "./uuidv4";
-
 class Subscriber {
     public topic: any;
     public action: Function;
@@ -17,12 +15,12 @@ class Subscriber {
 }
 
 class Token {
-    public token: string;
+    public token: symbol;
 
     /**
-     * @param token {string}
+     * @param token {symbol}
      */
-    constructor(token: string) {
+    constructor(token: symbol) {
         this.token = token;
     }
 }
@@ -32,7 +30,7 @@ class TokenGenerator {
      * @returns {Token}
      */
     static getRandomToken() {
-        return new Token(uuidv4());
+        return new Token(Symbol('token'));
     }
 }
 
