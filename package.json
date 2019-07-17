@@ -1,37 +1,21 @@
 {
   "name": "magicist",
-  "version": "0.1.7",
+  "version": "0.1.8",
   "description": "Simple and scalable state manager",
-  "author": {
-    "name": "Shilza",
-    "email": "iskandreww@gmail.com"
-  },
-  "license": "MIT",
-  "keywords": [
-    "react",
-    "magicist",
-    "state manager",
-    "frontend",
-    "web"
-  ],
-  "module": "dist/index.js",
+  "source": "src/lib/index.ts",
   "main": "dist/index.js",
+  "module": "dist/index.mjs",
+  "unpkg": "dist/magicist.min.js",
   "files": [
-    "dist",
+    "dist/index.js",
     "README.md"
   ],
-  "repository": {
-    "type": "git",
-    "url": "https://github.com/shilza/magicist"
-  },
   "scripts": {
     "start": "react-scripts start",
     "build": "SET NODE_ENV=production&& rollup -c",
     "build:examples": "react-scripts build",
     "test": "react-scripts test",
-    "eject": "react-scripts eject",
-    "predeploy": "yarn run react-scripts build",
-    "deploy": "gh-pages -d build"
+    "eject": "react-scripts eject"
   },
   "eslintConfig": {
     "extends": "react-app"
@@ -61,8 +45,35 @@
     "rollup": "^1.17.0",
     "rollup-plugin-babel": "^4.3.3",
     "rollup-plugin-babel-minify": "^9.0.0",
+    "rollup-plugin-gzip": "^2.2.0",
     "rollup-plugin-node-resolve": "^5.2.0",
+    "rollup-plugin-terser": "^5.1.1",
     "typescript": "^3.5.3"
   },
-  "dependencies": {}
+  "dependencies": {},
+  "author": {
+    "name": "Shilza",
+    "email": "iskandreww@gmail.com"
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/shilza/magicist"
+  },
+  "readme": "README.md",
+  "license": "MIT",
+  "keywords": [
+    "react",
+    "state",
+    "store",
+    "reactive",
+    "reactivity",
+    "redux",
+    "effector",
+    "mobx",
+    "state-manager",
+    "state manager",
+    "frontend",
+    "web",
+    "magicist"
+  ]
 }
