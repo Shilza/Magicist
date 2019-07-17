@@ -22,17 +22,17 @@ describe('Store', () => {
     describe('watch', () => {
         const store = new Store(observedState);
 
-       it('should triggers watcher', () => {
+       it('should triggers watcher',() => {
            const watcher = jest.fn();
            store.watch(watcher);
            store.getModel().increment();
-           expect(watcher).toBeCalledTimes(1);
+           Promise.resolve().then(() => expect(watcher).toBeCalledTimes(1));
        });
 
         it('unwatch should works correctly', () => {
             const watcher = jest.fn();
-            const unwatch = store.watch(watcher);
-            unwatch();
+            const disposer = store.watch(watcher);
+            disposer();
             store.getModel().increment();
             expect(watcher).toBeCalledTimes(0);
         });
@@ -51,8 +51,8 @@ describe('Store', () => {
 
         it('unwatch should works correctly', () => {
             const watcher = jest.fn();
-            const unwatch = store.watchProp('count', watcher);
-            unwatch();
+            const disposer = store.watchProp('count', watcher);
+            disposer();
             store.getModel().increment();
             expect(watcher).toBeCalledTimes(0);
         });
