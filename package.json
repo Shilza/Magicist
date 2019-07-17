@@ -38,6 +38,7 @@
     "@babel/preset-typescript": "^7.3.3",
     "@testing-library/react-hooks": "^1.1.0",
     "doctoc": "^1.4.0",
+    "react": "^16.8.6",
     "react-scripts": "3.0.1",
     "react-test-renderer": "^16.8.6",
     "rollup": "^1.17.0",
