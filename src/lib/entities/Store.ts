@@ -27,7 +27,7 @@ export class Store {
     /**
      * @description Method that apply callback when model is changed
      * @param watcher {Function}
-     * @returns {Function} than unsubscribe watcher
+     * @returns disposer {Function}, which can be used to dispose of the watcher when you no longer need it.
      */
     watch(watcher: Function): Function {
         const token = PubSub.subscribe(this, () => watcher(this.model));
@@ -38,7 +38,7 @@ export class Store {
      * @description Method that apply callback when prop value is changed
      * @param propName {string}
      * @param watcher {Function}
-     * @returns {Function} than unsubscribe watcher
+     * @returns disposer {Function}, which can be used to dispose of the watcher when you no longer need it.
      */
     watchProp(propName: string, watcher: (oldValue: any, newValue: any) => void): Function {
         const token = PubSub.subscribe(Store.WATCHERS, ([prop, oldValue, newValue]) => {

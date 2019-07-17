@@ -141,7 +141,7 @@ let model = useStore(store);
 1. `watcher`: Function
 
 ###### Returns 
-`unwatch` function than unsubscribe watcher 
+`disposer` function, which can be used to dispose of the watcher when you no longer need it.
 
 #### Example
 
@@ -154,10 +154,10 @@ const globalStore = createStore({
 });
 
 const watcher = model => console.log(model);
-const unwatch = globalStore.watch(watcher); // { count: 1, increment: (...) }
+const disposer = globalStore.watch(watcher); // { count: 1, increment: (...) }
 
 globalStore.getModel().increment();
-unwatch(); // unsubscribe from updates
+disposer(); // unsubscribe from updates
 ```
 
 ### watchProp
@@ -167,7 +167,7 @@ unwatch(); // unsubscribe from updates
 1. `watcher`: (oldValue, newValue) => void
 
 ###### Returns 
-`unwatch` function than unsubscribe watcher 
+`disposer` function, which can be used to dispose of the watcher when you no longer need it.
 
 #### Example
 
@@ -180,10 +180,10 @@ const globalStore = createStore({
 });
 
 const watcher = (oldValue, newValue) => console.log(oldValue, newValue);
-const unwatch = globalStore.watchProp('count', watcher); // 0, 1
+const disposer = globalStore.watchProp('count', watcher); // 0, 1
 
 globalStore.getModel().increment();
-unwatch(); // unsubscribe from updates
+disposer(); // unsubscribe from updates
 ```
 ## What will Magicist react to?
 Magicist reacts to any existing observable property that is read during the execution of a tracked function.
