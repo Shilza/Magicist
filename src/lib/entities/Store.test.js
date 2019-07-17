@@ -14,7 +14,7 @@ describe('Store', () => {
         expect(store).toBeInstanceOf(Store);
     });
 
-    it('should call middleware', () => {
+    it('should call Middleware', () => {
         store.getModel().increment();
         expect(func).toBeCalledTimes(1);
     });

@@ -2,16 +2,14 @@ import {PubSub} from "../utils";
 import '../polyfills/watch';
 
 export class Store {
-    private readonly model: {
-        watch: (key: string, handler: watchHandler) => void;
-    };
+    private readonly model: Object;
     private static readonly WATCHERS = Symbol;
 
     /**
      * @param model {Object}
      * @param middlewares {Array}
      */
-    constructor(model, middlewares: Array<middleware> = []) {
+    constructor(model, middlewares: Array<Middleware> = []) {
         this.model = {...model};
         this.registerMiddlewares(middlewares);
         this.registerWatchers();
@@ -54,14 +52,15 @@ export class Store {
     private registerWatchers() {
         const watchHandler = (propName, oldValue, newValue) => {
             if (newValue !== oldValue) {
-                PubSub.publish(this, propName);
+                Promise.resolve().then(() => PubSub.publish(this, propName));
                 PubSub.publish(Store.WATCHERS, [propName, oldValue, newValue]);
             }
             return newValue;
         };
 
-        Object.keys(this.model).forEach(key => {
-            if (typeof key !== 'function')
+        Object.entries(this.model).forEach(([key, value]) => {
+            if (typeof value !== 'function')
+            // @ts-ignore
                 this.model.watch(key, watchHandler);
         });
     }
@@ -70,12 +69,12 @@ export class Store {
      * @description Method that sets middlewares before function apply
      * @param middlewares {Array}
      */
-    private registerMiddlewares(middlewares: Array<middleware> = []) {
+    private registerMiddlewares(middlewares: Array<Middleware> = []) {
         Object.entries(this.model).forEach(([key, value]) => {
             if (typeof value === 'function') {
                 const functionsHandler: {} = {
                     apply: (func, args) => {
-                        middlewares.forEach((middleware: middleware) => middleware(this.model, func, args));
+                        middlewares.forEach((middleware: Middleware) => middleware(this.model, func, args));
                         func(args);
                     }
                 };
