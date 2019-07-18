@@ -2,11 +2,16 @@ import React from 'react';
 import ReactDOM from 'react-dom';
 import './index.css';
 import {Counter} from './examples/Counter';
-import * as serviceWorker from './examples/serviceWorker';
+import {globalStore} from "./examples/store";
 
-ReactDOM.render(<Counter />, document.getElementById('root'));
+const renderToDom = container => {
+    if (container)
+        ReactDOM.render(<Counter store={globalStore}/>, container);
+    else
+        console.error('root element is not defined');
+};
 
-// If you want your app to work offline and load faster, you can change
-// unregister() to register() below. Note this comes with some pitfalls.
-// Learn more about service workers: https://bit.ly/CRA-PWA
-serviceWorker.unregister();
+const root = document.getElementById('root');
+renderToDom(root);
+
+export { renderToDom };
