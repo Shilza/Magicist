@@ -1,22 +1,18 @@
 import {createStore} from "./createStore";
 import {act, renderHook} from "@testing-library/react-hooks";
 import {useStore} from "./useStore";
+import {cleanup} from "@testing-library/react";
+import {model} from "../../examples/store";
 
 describe('useStore', () => {
-    const store = createStore({
-        count: 0,
-        increment: function () {
-            this.count++;
-        },
-        decrement: function () {
-            this.count--;
-        },
-        reset: function () {
-            this.count = 0;
-        }
+    let wrapper;
+
+    beforeEach(() => {
+        const store = createStore(model);
+        wrapper = renderHook(() => useStore(store));
     });
 
-    const {result} = renderHook(() => useStore(store));
+    afterEach(cleanup);
 
     it('should throw TypeError', () => {
         expect(() => useStore({})).toThrow(TypeError);
@@ -24,23 +20,30 @@ describe('useStore', () => {
 
     it('should increment counter', () => {
             act(() => {
-                result.current.increment();
-                result.current.increment();
-                result.current.increment();
+                wrapper.result.current.increment();
+                wrapper.result.current.increment();
+                wrapper.result.current.increment();
             });
-            expect(result.current.count).toBe(3);
+            expect(wrapper.result.current.count).toBe(3);
         }
     );
 
     it('should decrement counter', () => {
-            act(result.current.decrement);
-            expect(result.current.count).toBe(2);
+            act(wrapper.result.current.decrement);
+            expect(wrapper.result.current.count).toBe(-1);
         }
     );
 
     it('should reset counter', () => {
-            act(result.current.reset);
-            expect(result.current.count).toBe(0);
+            act(() => {
+                wrapper.result.current.increment();
+                wrapper.result.current.increment();
+                wrapper.result.current.increment();
+            });
+            expect(wrapper.result.current.count).toBe(3);
+
+            act(wrapper.result.current.reset);
+            expect(wrapper.result.current.count).toBe(0);
         }
     );
 });
