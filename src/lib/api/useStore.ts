@@ -27,7 +27,7 @@ export const useStore = (store: Store) => {
 
     const token = PubSub.subscribe(store, propName => {
         if (observables.includes(propName)) {
-            forceUpdate();
+            Promise.resolve().then(forceUpdate);
             PubSub.unsubscribe(token);
         }
     });

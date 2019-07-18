@@ -26,7 +26,7 @@ describe('Store', () => {
            const watcher = jest.fn();
            store.watch(watcher);
            store.getModel().increment();
-           Promise.resolve().then(() => expect(watcher).toBeCalledTimes(1));
+           expect(watcher).toBeCalledTimes(1);
        });
 
         it('unwatch should works correctly', () => {

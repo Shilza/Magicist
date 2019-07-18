@@ -52,7 +52,7 @@ export class Store {
     private registerWatchers() {
         const watchHandler = (propName, oldValue, newValue) => {
             if (newValue !== oldValue) {
-                Promise.resolve().then(() => PubSub.publish(this, propName));
+                PubSub.publish(this, propName);
                 PubSub.publish(Store.WATCHERS, [propName, oldValue, newValue]);
             }
             return newValue;
