@@ -1,18 +1,35 @@
 import React from 'react';
 import './Counter.css';
-import {globalStore} from "./store";
 import {useStore} from "../lib";
 
-export const Counter = () => {
-    const {count, increment, decrement, reset} = useStore(globalStore);
+export const Counter = ({store}) => {
+    const {count, increment, decrement, reset} = useStore(store);
 
     return (
         <div className="App">
-            <div>Counter {count}</div>
+            <div data-testid='count'>Counter {count}</div>
             <div className='counterButtons'>
-                <button className='button' onClick={increment}>+</button>
-                <button className='button' onClick={decrement}>-</button>
-                <button className='button' onClick={reset}>Reset</button>
+                <button
+                    data-testid='increment'
+                    className='button'
+                    onClick={increment}
+                >
+                    +
+                </button>
+                <button
+                    data-testid='decrement'
+                    className='button'
+                    onClick={decrement}
+                >
+                    -
+                </button>
+                <button
+                    data-testid='reset'
+                    className='button'
+                    onClick={reset}
+                >
+                    Reset
+                </button>
             </div>
         </div>
     );
