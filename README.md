@@ -3,7 +3,7 @@
 # Magicist
 [![CircleCI](https://circleci.com/gh/Shilza/Magicist.svg?style=svg)](https://circleci.com/gh/Shilza/Magicist)
 [![Test Coverage](https://api.codeclimate.com/v1/badges/4b2db10ca99529f2f0b0/test_coverage)](https://codeclimate.com/github/Shilza/Magicist/test_coverage)
-[![install size](https://packagephobia.now.sh/badge?p=magicist)](https://packagephobia.now.sh/result?p=magicist)
+[![Bundle size](https://badgen.net/bundlephobia/minzip/magicist?color=green)](https://badgen.net/bundlephobia/minzip/magicist?color=green)
 [![PRs Welcome](https://img.shields.io/badge/PRs-welcome-brightgreen.svg?style=flat-square)](http://makeapullrequest.com)
 ![License](https://img.shields.io/npm/l/magicist.svg?colorB=brightgreen&style=popout)
 
@@ -105,6 +105,7 @@ const Counter = () => {
 2. `middlewares`: Array<(store: Store, func: (any) => any, args: Array<any>) => void>
 
 *Returns* 
+
 `Store` object that holds the state tree.
 
 ***Example***
@@ -148,9 +149,10 @@ store.getModel().manipulateData();
 `watch(watcher)` Triggers the callback when store is updated
 
 *Arguments*
-1. `watcher`: Function
+1. `watcher`: (model: Model) => void
 
 *Returns* 
+
 `disposer` function, which can be used to dispose of the watcher when you no longer need it.
 
 ***Example***
@@ -177,6 +179,7 @@ disposer(); // unsubscribe from updates
 1. `watcher`: (oldValue, newValue) => void
 
 *Returns* 
+
 `disposer` function, which can be used to dispose of the watcher when you no longer need it.
 
 ***Example***
@@ -203,6 +206,7 @@ disposer(); // unsubscribe from updates
 1. `store`: Store (created by `createStore`)
 
 *Returns* 
+
 `Model`
 
 ***Example***
