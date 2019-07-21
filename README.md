@@ -3,7 +3,7 @@
 # Magicist
 [![CircleCI](https://circleci.com/gh/Shilza/Magicist.svg?style=svg)](https://circleci.com/gh/Shilza/Magicist)
 [![Test Coverage](https://api.codeclimate.com/v1/badges/4b2db10ca99529f2f0b0/test_coverage)](https://codeclimate.com/github/Shilza/Magicist/test_coverage)
-[![install size](https://packagephobia.now.sh/badge?p=magicist)](https://packagephobia.now.sh/result?p=magicist)
+[![Bundle size](https://badgen.net/bundlephobia/minzip/magicist?color=green)](https://badgen.net/bundlephobia/minzip/magicist?color=green)
 [![PRs Welcome](https://img.shields.io/badge/PRs-welcome-brightgreen.svg?style=flat-square)](http://makeapullrequest.com)
 ![License](https://img.shields.io/npm/l/magicist.svg?colorB=brightgreen&style=popout)
 
