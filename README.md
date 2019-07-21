@@ -40,11 +40,11 @@ Extra simple state manager.
 * Tiny bundle size ([1 KB](https://bundlephobia.com/result?p=magicist@0.2.3) gzipped)
 * Boilerplate free
 * React bindings out of the box
+* Async actions management out of the box
 * Only point changes (you no longer need to reduce the state)
 * With Magicist you don't need to normalize your data. This makes the library very suitable for very complex domain models
-* No need classes
+* No need classes, decorators
 * No need immutable data structures
-* No need middlewares for async actions
 
 ## Installation
 
