@@ -105,6 +105,7 @@ const Counter = () => {
 2. `middlewares`: Array<(store: Store, func: (any) => any, args: Array<any>) => void>
 
 *Returns* 
+
 `Store` object that holds the state tree.
 
 ***Example***
@@ -148,9 +149,10 @@ store.getModel().manipulateData();
 `watch(watcher)` Triggers the callback when store is updated
 
 *Arguments*
-1. `watcher`: Function
+1. `watcher`: (model: Model) => void
 
 *Returns* 
+
 `disposer` function, which can be used to dispose of the watcher when you no longer need it.
 
 ***Example***
@@ -177,6 +179,7 @@ disposer(); // unsubscribe from updates
 1. `watcher`: (oldValue, newValue) => void
 
 *Returns* 
+
 `disposer` function, which can be used to dispose of the watcher when you no longer need it.
 
 ***Example***
@@ -203,6 +206,7 @@ disposer(); // unsubscribe from updates
 1. `store`: Store (created by `createStore`)
 
 *Returns* 
+
 `Model`
 
 ***Example***
