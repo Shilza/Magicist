@@ -4,10 +4,8 @@
  * @param secondArray {Array}
  */
 export function equals (firstArray: Array<any>, secondArray: Array<any>) {
-    if (!Array.isArray(firstArray))
-        throw TypeError('first param must be an array');
-    if (!Array.isArray(secondArray))
-        throw TypeError('second param must be an array');
+    if (!Array.isArray(firstArray) || !Array.isArray(secondArray))
+        return false;
 
     // compare lengths - can save a lot of time
     if (firstArray.length !== secondArray.length)

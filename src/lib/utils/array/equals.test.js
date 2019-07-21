@@ -1,12 +1,12 @@
 import {equals} from "./equals";
 
 describe('equals', () => {
-    it('should throw TypeError (first param is not array)', () => {
-        expect(() => equals('a', [])).toThrow(TypeError);
+    it('should return false(first param is not array)', () => {
+        expect(equals('', [])).toBeFalsy();
     });
 
-    it('should throw TypeError (second param is not array)', () => {
-        expect(() => equals([], '')).toThrow(TypeError);
+    it('should return false(second param is not array)', () => {
+        expect(equals([], '')).toBeFalsy();
     });
 
     it('should return false' ,() => {
