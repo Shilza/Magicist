@@ -1,5 +1,6 @@
 import {PubSub} from "../utils";
-import '../polyfills/watch';
+import {equals} from "../utils/array/equals";
+import {onlyData, createDeepSetProxy} from "../utils";
 
 export class Store {
     private readonly model: Object;
@@ -10,9 +11,8 @@ export class Store {
      * @param middlewares {Array}
      */
     constructor(model, middlewares: Array<Middleware> = []) {
-        this.model = {...model};
+        this.model = this.registerSetProxies({...model});
         this.registerMiddlewares(middlewares);
-        this.registerWatchers();
     }
 
     /**
@@ -28,40 +28,38 @@ export class Store {
      * @returns disposer {Function}, which can be used to dispose of the watcher when you no longer need it.
      */
     watch(watcher: Function): Function {
-        const token = PubSub.subscribe(this, () => watcher(this.model));
+        const token = PubSub.subscribe(this, () => watcher(onlyData(this.model)));
         return () => PubSub.unsubscribe(token);
     }
 
     /**
      * @description Method that apply callback when prop value is changed
-     * @param propName {string}
+     * @param watchedProp {string|Path} Can be a string or Path (Array<string>) for deep props
      * @param watcher {Function}
      * @returns disposer {Function}, which can be used to dispose of the watcher when you no longer need it.
      */
-    watchProp(propName: string, watcher: (oldValue: any, newValue: any) => void): Function {
-        const token = PubSub.subscribe(Store.WATCHERS, ([prop, oldValue, newValue]) => {
-            if (propName === prop)
-                watcher(oldValue, newValue);
+    watchProp(watchedProp: string | Path, watcher: (oldValue: any, newValue: any) => void): Function {
+        const token = PubSub.subscribe(Store.WATCHERS, ([propPath, oldValue, newValue]) => {
+            if ((Array.isArray(watchedProp) && equals(watchedProp, propPath) )
+                || (typeof watchedProp === 'string' && propPath.length === 1 && propPath[0] === watchedProp))
+                watcher(onlyData(oldValue), onlyData(newValue));
         });
         return () => PubSub.unsubscribe(token);
     }
 
     /**
      * @description Method that makes model's props observable
+     * @param target {Object}
      */
-    private registerWatchers() {
-        const watchHandler = (propName, oldValue, newValue) => {
-            if (newValue !== oldValue) {
-                PubSub.publish(this, propName);
-                PubSub.publish(Store.WATCHERS, [propName, oldValue, newValue]);
+    private registerSetProxies(target) {
+        const store = this;
+        return createDeepSetProxy(target, {
+            set(target, path, newValue, oldValue) {
+                if (newValue !== oldValue) {
+                    PubSub.publish(store, path);
+                    PubSub.publish(Store.WATCHERS, [path, oldValue, newValue]);
+                }
             }
-            return newValue;
-        };
-
-        Object.entries(this.model).forEach(([key, value]) => {
-            if (typeof value !== 'function')
-            // @ts-ignore
-                this.model.watch(key, watchHandler);
         });
     }
 
@@ -69,12 +67,12 @@ export class Store {
      * @description Method that sets middlewares before function apply
      * @param middlewares {Array}
      */
-    private registerMiddlewares(middlewares: Array<Middleware> = []) {
+    private registerMiddlewares(middlewares: Array<Middleware>) {
         Object.entries(this.model).forEach(([key, value]) => {
             if (typeof value === 'function') {
                 const functionsHandler: {} = {
                     apply: (func, args) => {
-                        middlewares.forEach((middleware: Middleware) => middleware(this.model, func, args));
+                        middlewares.forEach((middleware: Middleware) => middleware(onlyData(this.model), func, args));
                         func(args);
                     }
                 };
