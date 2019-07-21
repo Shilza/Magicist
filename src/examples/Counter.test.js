@@ -1,13 +1,25 @@
-import {Counter} from "./Counter";
 import React from "react";
 import {act, cleanup, fireEvent, render, waitForElement} from '@testing-library/react';
+import {Counter} from "./Counter";
 import {createStore} from "../lib/api";
-import {model} from "./store";
 
 describe('Counter', () => {
     let wrapper;
 
     beforeEach(() => {
+        const model = {
+            count: 0,
+            increment: function () {
+                this.count++;
+            },
+            decrement: function () {
+                this.count--;
+            },
+            reset: function () {
+                this.count = 0;
+            }
+        };
+
         const store = createStore(model);
         wrapper = render(<Counter store={store}/>);
     });

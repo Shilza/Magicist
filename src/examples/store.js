@@ -2,14 +2,14 @@ import {createStore} from "../lib/api";
 
 export const model = {
     count: 0,
-    increment: function() {
+    increment: function () {
         this.count++;
     },
-    decrement: function() {
+    decrement: function () {
         this.count--;
     },
-    reset: function() {
-        this.count = 0;
+    reset: function () {
+        this.count= 0;
     }
 };
 
