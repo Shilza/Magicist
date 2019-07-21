@@ -2,12 +2,29 @@ import {createStore} from "./createStore";
 import {act, renderHook} from "@testing-library/react-hooks";
 import {useStore} from "./useStore";
 import {cleanup} from "@testing-library/react";
-import {model} from "../../examples/store";
 
 describe('useStore', () => {
     let wrapper;
 
     beforeEach(() => {
+        const model = {
+            count: 0,
+            obj: {
+                nested: {
+                    value: 200
+                }
+            },
+            increment: function () {
+                this.count++;
+            },
+            decrement: function () {
+                this.count--;
+            },
+            reset: function () {
+                this.count = 0;
+            }
+        };
+
         const store = createStore(model);
         wrapper = renderHook(() => useStore(store));
     });
@@ -16,6 +33,10 @@ describe('useStore', () => {
 
     it('should throw TypeError', () => {
         expect(() => useStore({})).toThrow(TypeError);
+    });
+
+    it('should works correctly when model has nested objects', () => {
+        expect(wrapper.result.current.obj.nested.value).toBe(200);
     });
 
     it('should increment counter', () => {
