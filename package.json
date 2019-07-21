@@ -1,6 +1,6 @@
 {
   "name": "magicist",
-  "version": "0.2.5",
+  "version": "0.2.6",
   "description": "Simple and scalable state manager",
   "source": "src/lib/index.ts",
   "main": "dist/magicist.js",
