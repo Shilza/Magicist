@@ -101,6 +101,5 @@ describe('Store', () => {
             expect(watcher).toBeCalledTimes(0);
         });
 
-
     });
 });
