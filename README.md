@@ -58,6 +58,11 @@ Via npm
 npm install magicist --save
 ```
 
+## Introduction
+Magicist works by simple cycle, see illustration below
+
+<img src="https://github.com/Shilza/Magicist/blob/master/public/description.jpg" alt="Magicist's concept" align="center"/>
+
 ## Examples
 ### Increment/decrement
 ```javascript
