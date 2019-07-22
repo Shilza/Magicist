@@ -18,6 +18,7 @@ Extra simple state manager.
 
 - [Advantages](#advantages)
 - [Installation](#installation)
+- [Introduction](#introduction)
 - [Examples](#examples)
   - [Increment/decrement](#incrementdecrement)
 - [Demo](#demo)
