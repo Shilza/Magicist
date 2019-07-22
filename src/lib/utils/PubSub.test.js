@@ -14,11 +14,21 @@ describe('PubSub', () => {
         expect(action).toBeCalledWith(data);
     });
 
-    it('action should not de called', () => {
+    it('action should not de called (unsub fy token)', () => {
         const action = jest.fn();
 
         const token = PubSub.subscribe(TOPIC, action);
         PubSub.unsubscribe(token);
+        PubSub.publish(TOPIC, data);
+
+        expect(action).toBeCalledTimes(0);
+    });
+
+    it('action should not de called (unsub fy function)', () => {
+        const action = jest.fn();
+
+        PubSub.subscribe(TOPIC, action);
+        PubSub.unsubscribe(action);
         PubSub.publish(TOPIC, data);
 
         expect(action).toBeCalledTimes(0);

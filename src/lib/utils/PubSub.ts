@@ -56,8 +56,8 @@ export class PubSub {
     static unsubscribe(token: Token|Function) {
         if (token instanceof Token)
             PubSub.subs = PubSub.subs.filter(sub => sub.token !== token);
-        else if (token instanceof Function)
-            PubSub.subs = PubSub.subs.filter(sub => sub.action !== token)
+        else
+            PubSub.subs = PubSub.subs.filter(sub => sub.action !== token);
     }
 
     /**
@@ -69,7 +69,7 @@ export class PubSub {
         PubSub.subs.forEach(sub => {
             if (sub.topic === topic)
                 sub.action(data);
-        })
+        });
     }
 
     /**
