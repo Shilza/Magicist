@@ -98,11 +98,11 @@ const Counter = () => {
 
 ## API
 ### createStore
-`createStore(store, middlewares)` Create a store object that holds the state tree.
+`createStore(model, middlewares)` Create a store object that holds the state tree.
 
 *Arguments*
-1. `store`: object
-2. `middlewares`: Array<(store: Store, func: (any) => any, args: Array<any>) => void>
+1. `model`: Object
+2. `middlewares`: Array<(model: Object, func: (any) => any, args: Array<any>) => void>
 
 *Returns* 
 
